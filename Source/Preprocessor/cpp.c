@@ -976,7 +976,7 @@ static String *expand_macro(String *name, List *args, String *line_file) {
 	}
       }
       /*      Replace(ns, aname, arg, DOH_REPLACE_ID); */
-      Replace(ns, aname, reparg, DOH_REPLACE_ID);	/* Replace expanded args */
+      Replace(ns, aname, reparg, DOH_REPLACE_ID | DOH_REPLACE_NOQUOTE);	/* Replace expanded args */
       Replace(ns, "\003", arg, DOH_REPLACE_ANY);	/* Replace unexpanded arg */
       Delete(reparg);
     }
