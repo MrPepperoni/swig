@@ -881,6 +881,7 @@ static String *expand_macro(String *name, List *args, String *line_file) {
     for (i = 0; i < l; i++) {
       DOH *arg, *aname;
       String *reparg;
+      int flags;
       arg = Getitem(args, i);	/* Get an argument value */
       reparg = Preprocessor_replace(arg);
       aname = Getitem(margs, i);	/* Get macro argument name */
@@ -976,7 +977,11 @@ static String *expand_macro(String *name, List *args, String *line_file) {
 	}
       }
       /*      Replace(ns, aname, arg, DOH_REPLACE_ID); */
-      Replace(ns, aname, reparg, DOH_REPLACE_ID | DOH_REPLACE_NOQUOTE);	/* Replace expanded args */
+      flags = DOH_REPLACE_ID;
+      if (!Getattr(macro, kpp_swigmacro)) {
+          flags |= DOH_REPLACE_NOQUOTE;
+      }
+      Replace(ns, aname, reparg, flags);	/* Replace expanded args */
       Replace(ns, "\003", arg, DOH_REPLACE_ANY);	/* Replace unexpanded arg */
       Delete(reparg);
     }
